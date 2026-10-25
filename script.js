@@ -95,31 +95,44 @@ restoreEdits();
 
 saveBtn.addEventListener("click", saveEdits);
 
-// JPG download
+// JPG export: render a full-size independent copy, never stretch a smaller canvas.
 downloadBtn.addEventListener("click", async () => {
   const target = document.getElementById("capture");
   downloadBtn.disabled = true;
   downloadBtn.textContent = "저장 중...";
-
-  try{
-    document.body.classList.add('exporting');
-    target.classList.add('exporting');
+  let holder;
+  try {
     await document.fonts.ready;
-    const canvas = await html2canvas(target, {
-      width: 1920,
-      height: 1080,
-      scale: 1,
-      backgroundColor: null,
-      useCORS: true
+    holder = document.createElement("div");
+    holder.style.cssText = "position:fixed;left:-10000px;top:0;width:1920px;height:1080px;overflow:hidden;pointer-events:none;";
+    const clone = target.cloneNode(true);
+    clone.removeAttribute("id");
+    clone.classList.add("exporting", "export-capture");
+    // Copy the current edited values and uploaded image into the capture copy.
+    const originals = target.querySelectorAll('[contenteditable="true"]');
+    const copies = clone.querySelectorAll('[contenteditable="true"]');
+    originals.forEach((el, i) => { if (copies[i]) copies[i].textContent = el.textContent; });
+    holder.appendChild(clone);
+    document.body.appendChild(holder);
+    await Promise.all(Array.from(clone.querySelectorAll("img")).map(img => {
+      if (img.complete) return Promise.resolve();
+      return new Promise(resolve => { img.addEventListener("load", resolve, {once:true}); img.addEventListener("error", resolve, {once:true}); });
+    }));
+    const canvas = await html2canvas(clone, {
+      width: 1920, height: 1080, windowWidth: 1920, windowHeight: 1080,
+      scale: 1, backgroundColor: "#fff9ff", useCORS: true,
+      scrollX: 0, scrollY: 0, logging: false
     });
-
+    // Do not resize or drawImage() the canvas: it distorts character artwork.
     const link = document.createElement("a");
     link.download = "라누리온 스캐쥴.jpg";
-    link.href = canvas.toDataURL("image/jpeg", 0.95);
+    link.href = canvas.toDataURL("image/jpeg", 0.96);
     link.click();
+  } catch (error) {
+    console.error("JPG 저장 실패:", error);
+    alert("이미지 저장에 실패했어요. 새로고침 후 다시 시도해 주세요.");
   } finally {
-    document.body.classList.remove('exporting');
-    target.classList.remove('exporting');
+    holder?.remove();
     downloadBtn.disabled = false;
     downloadBtn.textContent = "JPG 저장";
   }
