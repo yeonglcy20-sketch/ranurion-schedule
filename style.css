@@ -614,3 +614,22 @@ th,td{padding:8px 12px;vertical-align:middle;}
   max-width:100% !important; max-height:100% !important;
   object-fit:contain !important; transform:none !important;
 }
+
+/* Image picker fix: hidden placeholder must never cover the uploaded image. */
+#capture .image-frame .hidden,
+.export-capture .image-frame .hidden {
+  display: none !important;
+  visibility: hidden !important;
+}
+#capture .image-frame .user-image:not(.hidden),
+.export-capture .image-frame .user-image:not(.hidden) {
+  display: block !important;
+  visibility: visible !important;
+  z-index: 2;
+}
+#capture .image-frame .image-placeholder:not(.hidden),
+.export-capture .image-frame .image-placeholder:not(.hidden) {
+  display: flex !important;
+  visibility: visible !important;
+  z-index: 1;
+}
