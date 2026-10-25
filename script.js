@@ -22,8 +22,6 @@ function setUserImage(dataUrl){
   userImage.src = dataUrl;
   userImage.classList.remove("hidden");
   placeholder.classList.add("hidden");
-  userImage.style.removeProperty("display");
-  placeholder.style.removeProperty("display");
   localStorage.setItem("potato_user_image", dataUrl);
 }
 

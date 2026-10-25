@@ -615,21 +615,19 @@ th,td{padding:8px 12px;vertical-align:middle;}
   object-fit:contain !important; transform:none !important;
 }
 
-/* Image picker fix: hidden placeholder must never cover the uploaded image. */
-#capture .image-frame .hidden,
-.export-capture .image-frame .hidden {
+/* Uploaded image must appear above the default illustration in the editor.
+   The earlier !important display:flex rule overrode .hidden. */
+#capture .image-frame .image-placeholder.hidden,
+.export-capture .image-frame .image-placeholder.hidden {
   display: none !important;
-  visibility: hidden !important;
 }
-#capture .image-frame .user-image:not(.hidden),
-.export-capture .image-frame .user-image:not(.hidden) {
-  display: block !important;
-  visibility: visible !important;
+#capture .image-frame .user-image.hidden,
+.export-capture .image-frame .user-image.hidden {
+  display: none !important;
+}
+#capture .image-frame .user-image:not(.hidden) {
   z-index: 2;
 }
-#capture .image-frame .image-placeholder:not(.hidden),
-.export-capture .image-frame .image-placeholder:not(.hidden) {
-  display: flex !important;
-  visibility: visible !important;
+#capture .image-frame .image-placeholder:not(.hidden) {
   z-index: 1;
 }
