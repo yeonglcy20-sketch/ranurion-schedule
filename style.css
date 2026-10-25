@@ -456,3 +456,7 @@ h1{color:#72429c!important;text-shadow:0 3px 0 #fff,0 6px 20px #a16bc155}
 #schedule-body tr:nth-child(odd){background:rgba(238,218,255,.32)}
 #schedule-body tr:hover{background:rgba(211,178,247,.4)}
 .controls button,.controls .file{background:#ad83db;color:white;border-radius:16px}
+
+/* 라누리온 공식 로고 헤더 */
+header{margin-bottom:12px!important;min-height:170px;display:flex;align-items:center;justify-content:center}
+.schedule-logo{display:block;width:min(830px,85%);max-height:174px;object-fit:contain;filter:drop-shadow(0 8px 12px rgba(102,57,144,.24))}
