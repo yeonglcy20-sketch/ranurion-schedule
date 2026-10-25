@@ -113,7 +113,7 @@ downloadBtn.addEventListener("click", async () => {
     });
 
     const link = document.createElement("a");
-    link.download = "감자수베지_스케줄_1920x1080.jpg";
+    link.download = "라누리온 스캐쥴.jpg";
     link.href = canvas.toDataURL("image/jpeg", 0.95);
     link.click();
     document.body.classList.remove('exporting');
