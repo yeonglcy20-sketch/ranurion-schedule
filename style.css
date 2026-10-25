@@ -460,3 +460,29 @@ h1{color:#72429c!important;text-shadow:0 3px 0 #fff,0 6px 20px #a16bc155}
 /* 라누리온 공식 로고 헤더 */
 header{margin-bottom:12px!important;min-height:170px;display:flex;align-items:center;justify-content:center}
 .schedule-logo{display:block;width:min(830px,85%);max-height:174px;object-fit:contain;filter:drop-shadow(0 8px 12px rgba(102,57,144,.24))}
+
+/* 16:9 레이아웃 보정: 7일 모두 표시, 원본 이미지 비율 유지 */
+#capture{padding:24px 70px 34px;}
+header{height:170px;min-height:0;margin:0 0 14px!important;}
+.schedule-logo{width:760px;max-width:80%;height:160px;max-height:160px;object-fit:contain;}
+.layout{grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:16px;align-items:start;}
+.left,.right{gap:12px;min-width:0;}
+.left>.card:not(.card-table){padding:13px 20px;}
+.card-title{font-size:19px;margin-bottom:4px;}
+.quote{font-size:33px;line-height:1.1;padding:5px 10px;min-height:43px;}
+.card-table{flex:0 0 auto;}
+table{table-layout:fixed;font-size:32px;line-height:1.1;}
+thead tr{height:72px;}
+tbody tr{height:91px;}
+th,td{padding:8px 12px;vertical-align:middle;}
+.image-card{padding:14px 16px;gap:8px;}
+.image-title,.tag-title{font-size:19px;}
+.image-frame{height:515px;aspect-ratio:auto;}
+.user-image{object-fit:contain;}
+.image-placeholder{gap:0;}
+.default-character{object-fit:contain;}
+.ph-text{display:none;}
+.tag-card{padding:10px 14px;}
+.tag-title{margin-bottom:7px;}
+.tag{padding:8px 12px;}
+.potato-hero{width:245px;height:245px;right:4px;bottom:2px;}

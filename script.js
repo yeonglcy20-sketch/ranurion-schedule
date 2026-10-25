@@ -104,6 +104,7 @@ downloadBtn.addEventListener("click", async () => {
   try{
     document.body.classList.add('exporting');
     target.classList.add('exporting');
+    await document.fonts.ready;
     const canvas = await html2canvas(target, {
       width: 1920,
       height: 1080,
@@ -116,9 +117,9 @@ downloadBtn.addEventListener("click", async () => {
     link.download = "라누리온 스캐쥴.jpg";
     link.href = canvas.toDataURL("image/jpeg", 0.95);
     link.click();
+  } finally {
     document.body.classList.remove('exporting');
     target.classList.remove('exporting');
-  } finally {
     downloadBtn.disabled = false;
     downloadBtn.textContent = "JPG 저장";
   }
