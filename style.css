@@ -494,3 +494,31 @@ th,td{padding:8px 12px;vertical-align:middle;}
 .default-character, .user-image { object-fit:contain!important; object-position:center; }
 .image-frame { height:515px; }
 .image-tags:empty { display:none; }
+
+/* 라누리온: JPG 저장 시 세 영역을 동일한 연보라색으로 표시.
+   화면과 캡처 복제본 모두 동일하게 적용한다. */
+:root { --ranurion-panel-fill: #f0e1fa; }
+#capture .left > .card:not(.card-table),
+#capture .image-card,
+#capture .tag-card,
+.export-capture .left > .card:not(.card-table),
+.export-capture .image-card,
+.export-capture .tag-card {
+  background: var(--ranurion-panel-fill) !important;
+  background-image: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+#capture .quote,
+#capture .quote:focus,
+#capture .image-frame,
+#capture .image-placeholder,
+#capture .tag-row,
+.export-capture .quote,
+.export-capture .quote:focus,
+.export-capture .image-frame,
+.export-capture .image-placeholder,
+.export-capture .tag-row {
+  background: var(--ranurion-panel-fill) !important;
+  background-image: none !important;
+}
