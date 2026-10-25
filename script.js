@@ -120,6 +120,22 @@ downloadBtn.addEventListener("click", async () => {
       if (img.complete) return Promise.resolve();
       return new Promise(resolve => { img.addEventListener("load", resolve, {once:true}); img.addEventListener("error", resolve, {once:true}); });
     }));
+    // html2canvas는 일부 flex/absolute 이미지의 비율을 잘못 계산할 수 있으므로
+    // 저장용 복제본에서는 원본 이미지의 실제 픽셀 비율로 크기를 확정한다.
+    clone.querySelectorAll('.image-frame img').forEach(img => {
+      const original = target.querySelector('#' + img.id);
+      const source = original || img;
+      const naturalW = source.naturalWidth || img.naturalWidth;
+      const naturalH = source.naturalHeight || img.naturalHeight;
+      const frame = img.closest('.image-frame');
+      if (!naturalW || !naturalH || !frame) return;
+      const bounds = frame.getBoundingClientRect();
+      const fit = Math.min(bounds.width / naturalW, bounds.height / naturalH);
+      img.style.setProperty('width', `${Math.floor(naturalW * fit)}px`, 'important');
+      img.style.setProperty('height', `${Math.floor(naturalH * fit)}px`, 'important');
+      img.style.setProperty('max-width', 'none', 'important');
+      img.style.setProperty('max-height', 'none', 'important');
+    });
     const canvas = await html2canvas(clone, {
       width: 1920, height: 1080, windowWidth: 1920, windowHeight: 1080,
       scale: 1, backgroundColor: "#fff9ff", useCORS: true,
