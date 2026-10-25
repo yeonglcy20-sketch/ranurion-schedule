@@ -522,3 +522,42 @@ th,td{padding:8px 12px;vertical-align:middle;}
   background: var(--ranurion-panel-fill) !important;
   background-image: none !important;
 }
+
+/* 최종 보정: html2canvas에서 반투명 레이어가 줄무늬로 합성되지 않도록
+   세 패널과 자식 영역에 불투명 단색 배경을 적용합니다. */
+:root { --ranurion-solid-panel: #f0e1fa; }
+#capture .left > .card:not(.card-table),
+#capture .image-card, #capture .tag-card,
+.export-capture .left > .card:not(.card-table),
+.export-capture .image-card, .export-capture .tag-card {
+  background: #f0e1fa !important;
+  background-image: none !important;
+  opacity: 1 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: none !important;
+  isolation: isolate;
+}
+#capture .left > .card:not(.card-table) .card-title,
+#capture .left > .card:not(.card-table) .quote,
+#capture .image-card .image-title,
+#capture .image-card .image-frame,
+#capture .image-card .image-placeholder,
+#capture .image-card .image-tags,
+#capture .tag-card .tag-title,
+#capture .tag-card .tag-row,
+.export-capture .left > .card:not(.card-table) .card-title,
+.export-capture .left > .card:not(.card-table) .quote,
+.export-capture .image-card .image-title,
+.export-capture .image-card .image-frame,
+.export-capture .image-card .image-placeholder,
+.export-capture .image-card .image-tags,
+.export-capture .tag-card .tag-title,
+.export-capture .tag-card .tag-row {
+  background: #f0e1fa !important;
+  background-image: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: none !important;
+}
+/* 이미지 자체의 흰 배경은 원본 이미지 픽셀일 수 있으므로 변경하지 않음 */

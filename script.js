@@ -108,6 +108,8 @@ downloadBtn.addEventListener("click", async () => {
     const clone = target.cloneNode(true);
     clone.removeAttribute("id");
     clone.classList.add("exporting", "export-capture");
+    // 캡처 복제본에도 원본 배경과 불투명 패널을 명시적으로 적용.
+    clone.style.background = "linear-gradient(110deg, rgba(251,245,255,.92), rgba(240,222,255,.87)), url('assets/slime_room.png') center / cover";
     // Copy the current edited values and uploaded image into the capture copy.
     const originals = target.querySelectorAll('[contenteditable="true"]');
     const copies = clone.querySelectorAll('[contenteditable="true"]');
