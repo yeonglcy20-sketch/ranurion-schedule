@@ -120,13 +120,28 @@ downloadBtn.addEventListener("click", async () => {
       if (img.complete) return Promise.resolve();
       return new Promise(resolve => { img.addEventListener("load", resolve, {once:true}); img.addEventListener("error", resolve, {once:true}); });
     }));
-    // 이미지 비율은 CSS object-fit:contain으로 보존합니다.
-    // id가 없는 이미지에 querySelector('#')를 호출하면 저장이 중단되므로
-    // 이전의 이미지별 강제 크기 계산은 사용하지 않습니다.
-    clone.querySelectorAll('.image-frame img').forEach(img => {
-      img.style.setProperty('object-fit', 'contain', 'important');
-      img.style.setProperty('object-position', 'center', 'important');
-    });
+    // html2canvas can misplace transformed images or ignore object-fit.
+    // Pre-compose visible artwork on a transparent square canvas at its natural ratio.
+    const frame = clone.querySelector('.image-frame');
+    const visibleImage = frame?.querySelector('.user-image:not(.hidden)') ||
+                         frame?.querySelector('.image-placeholder:not(.hidden) .default-character');
+    if (visibleImage && visibleImage.naturalWidth && visibleImage.naturalHeight) {
+      const side = 1000;
+      const buffer = document.createElement('canvas');
+      buffer.width = side; buffer.height = side;
+      const ctx = buffer.getContext('2d');
+      const factor = Math.min(side / visibleImage.naturalWidth, side / visibleImage.naturalHeight);
+      const w = visibleImage.naturalWidth * factor;
+      const h = visibleImage.naturalHeight * factor;
+      ctx.drawImage(visibleImage, (side-w)/2, (side-h)/2, w, h);
+      const safe = document.createElement('img');
+      safe.src = buffer.toDataURL('image/png');
+      safe.alt = visibleImage.alt;
+      safe.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;object-fit:fill;transform:none;';
+      frame.querySelectorAll('.user-image, .image-placeholder').forEach(el => el.style.display = 'none');
+      frame.appendChild(safe);
+      await safe.decode();
+    }
     const canvas = await html2canvas(clone, {
       width: 1920, height: 1080, windowWidth: 1920, windowHeight: 1080,
       scale: 1, backgroundColor: "#fff9ff", useCORS: true,
